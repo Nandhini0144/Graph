@@ -1,0 +1,33 @@
+class Solution {
+    void dfs(Node copy,Node node,Node[] vis)
+{
+        vis[copy.val]=copy;
+        for(Node n:node.neighbors)
+        {
+            if(vis[n.val]==null)
+            {
+                Node nod=new Node(n.val);
+                // System.out.println(n.val);
+                copy.neighbors.add(nod);
+                dfs(nod,n,vis);
+            }
+            else
+            {
+                copy.neighbors.add(vis[n.val]);
+            }
+            
+        }
+}
+    public Node cloneGraph(Node node) {
+        if(node==null)
+            return null;
+        Node newnode=new Node(node.val);
+        // for(Node it:node.neighbors)
+        // System.out.println(it.val);
+        // List<Node> vis=new ArrayList<>();
+        Node[] vis=new Node[101];
+        Arrays.fill(vis,null);
+        dfs(newnode,node,vis);
+        return newnode;
+    }
+}
