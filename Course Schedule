@@ -10,15 +10,11 @@ class Solution {
              adj[arr[0]].add(arr[1]);
              inDegree[arr[1]]++;
          }
-        // int[] vis=new int[numCourses];
-        // int st=-1;
         Queue<Integer> q=new LinkedList<>();
         for(int i=0;i<numCourses;i++)
         {
             if(inDegree[i]==0)
-            {
                 q.offer(i);
-            }
         }
         if(q.isEmpty()==true)
             return false; 
