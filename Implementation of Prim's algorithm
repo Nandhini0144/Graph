@@ -1,0 +1,49 @@
+import java.util.Arrays;
+public class Main
+{   
+    public static int findMin(int[] cost,int[] setMST)
+    {
+        int min=Integer.MAX_VALUE;
+        int min_index=0;
+        for(int i=0;i<cost.length;i++)
+        {
+            if(cost[i]<min && setMST[i]==0)
+            {
+            min=cost[i];
+            min_index=i;
+            }
+        }
+        return min_index;
+    }
+    public static void findMst(int[][] graph)
+    {
+        int v=graph.length;
+        int[] parent=new int[v];
+        int[] setMST=new int[v];
+        int[] cost=new int[v];
+        Arrays.fill(cost,Integer.MAX_VALUE);
+        cost[0]=0;
+        for(int i=0;i<v-1;i++)
+        {
+            int u=findMin(cost,setMST);
+            setMST[u]=1;
+            for(int j=0;j<v;j++)
+            {
+                if(graph[u][j]!=0 && cost[j]>graph[u][j] && setMST[j]==0)
+                {
+                    cost[j]=graph[u][j];
+                    parent[j]=u;
+                }
+            }
+        }
+        for(int i=0;i<v;i++)
+        {
+            System.out.println("Parent of "+i+"= "+parent[i]);
+        }
+        
+    }
+	public static void main(String[] args) {
+		int[][] graph={{0,2,0,4,0,0},{2,0,5,3,0,0},{0,5,0,0,0,7},{4,3,0,0,1,0},{0,0,0,1,0,6},{0,0,7,0,6,0}};
+		findMst(graph);
+	}
+}
