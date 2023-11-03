@@ -1,0 +1,62 @@
+class Solution {
+    public int manHat(int i,int j,int[][] points)
+    {
+        int c1=Math.abs(points[i][0]-points[j][0]);
+        int c2=Math.abs(points[i][1]-points[j][1]);
+        return c1+c2;
+    }
+    public int findMin(int[] cost,int[] vis)
+    {
+        int min=Integer.MAX_VALUE;
+        int minIndex=0;
+        for(int i=0;i<cost.length;i++)
+        {
+            if(cost[i]<min && vis[i]==0)
+            {
+                min=cost[i];
+                minIndex=i;
+            }
+        }
+        System.out.println(cost[minIndex]);
+        return minIndex;
+    }
+    public int minCostConnectPoints(int[][] points) {
+        int l=points.length;
+        int sum=0;
+        int[][] graph=new int[l][l];
+        for(int i=0;i<points.length;i++)
+        {
+            for(int j=0;j<points.length;j++)
+            {
+                graph[i][j]=manHat(i,j,points);
+                // System.out.println(graph[i][j]);
+            }
+        }
+        int[] parent=new int[l];
+        int[] vis=new int[l];
+        int[] cost=new int[l];
+        Arrays.fill(cost,Integer.MAX_VALUE);
+        cost[0]=0;
+        for(int i=0;i<l-1;i++)
+        {
+            int u=findMin(cost,vis);
+            vis[u]=1;
+            // sum+=cost[u];
+            // System.out.println(sum);
+            for(int j=0;j<l;j++)
+            {
+                if(graph[u][j]!=0 && graph[u][j]<cost[j] && vis[j]==0 )
+                {
+                    cost[j]=graph[u][j];
+                    parent[j]=u;
+                }
+            }
+        }
+        for(int i=0;i<l;i++)
+        {
+            int p=parent[i];
+            sum+=graph[i][p];
+        }
+        return sum;
+    }
+}
